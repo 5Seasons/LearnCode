@@ -1,7 +1,5 @@
 package cn.Sparking.com.sort;
 
-import cn.Sparking.com.tool.pr;
-
 //稳定排序
 /*
  * 计数排序（Counting sort）是一种稳定的线性时间排序算法。
@@ -25,8 +23,8 @@ import cn.Sparking.com.tool.pr;
  */
 public class CountingSort {
 	public static void main(String[] argv) {
-		int[] A = CountingSort.countingSort(new int[] { 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 });
-		pr.pr(A);
+		int[] A = CountingSort.countingSort(new int[] { 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 ,9});
+		pr(A);
 	}
 
 	public static int[] countingSort(int[] A) {
@@ -40,24 +38,37 @@ public class CountingSort {
 	private static void countingSort(int[] A, int[] B, int k) {
 		int[] C = new int[k];
 		// 计数
+//		C第N位记录的是 数字N在A中出现的次数
 		for (int j = 0; j < A.length; j++) {
 			int a = A[j];
 			C[a] += 1;
 		}
-		pr.pr(C);
+		pr(C);
 		// 求计数和
+//		此时C第N位记录的是 数组A中 比N小的数字一共有多少
 		for (int i = 1; i < k; i++) {
 			C[i] = C[i] + C[i - 1];
 		}
-		pr.pr(C);
+		pr(C);
 		// 整理
+//		把A数组里面的数字 对应到N里面取出比自己小的有多少个 然后放到B里面的count-1 位上 并将该数字的count数减一  预防重复的数字不写。
 		for (int j = A.length - 1; j >= 0; j--) {
 			int a = A[j];
 			B[C[a] - 1] = a;
 			C[a] -= 1;
 		}
 	}
+	
+	public static void pr(int[] a){
+		System.out.print("数组如下：");
+		for(int aa : a){
+			System.out.print(aa + " ");
+		}
+		System.out.println();
+	}
 }
+
+
 
 // 针对c数组的大小，优化过的计数排序
 class CountSort {
@@ -74,6 +85,7 @@ class CountSort {
 	public static int[] countSort(int[] a) {
 		int b[] = new int[a.length];
 		int max = a[0], min = a[0];
+//		取出数组A中最大值最小值
 		for (int i : a) {
 			if (i > max) {
 				max = i;
@@ -88,12 +100,38 @@ class CountSort {
 		for (int i = 0; i < a.length; ++i) {
 			c[a[i] - min] += 1;// 优化过的地方，减小了数组c的大小
 		}
+		CountingSort.pr(c);
 		for (int i = 1; i < c.length; ++i) {
 			c[i] = c[i] + c[i - 1];
 		}
+		CountingSort.pr(c);
 		for (int i = a.length - 1; i >= 0; --i) {
 			b[--c[a[i] - min]] = a[i];// 按存取的方式取出c的元素
 		}
 		return b;
+	}
+}
+
+//自己写的
+class self_construct{
+	public static void main(String args[]){
+		int a[] = { 100, 93, 97, 92, 96, 99, 92, 89, 93, 97, 90, 94, 92, 95 };
+		CountingSort.pr(a);
+		int b[] = new int[a.length];
+		for(int i = 0 ;i < a.length ; i++){
+//			计数
+			int count = 0;
+//			内循环 做比较
+			for(int j = 0 ; j<a.length ; j++){
+				if(a[i] > a[j])
+					count++ ;
+//				如果相同 且在后面的数字仍旧放在后面
+				if(a[i] == a[j] & i>j)
+					count++ ;
+			}
+//			放到目标数组内
+			b[count] = a[i];
+		}
+		CountingSort.pr(b);
 	}
 }
