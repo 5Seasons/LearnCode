@@ -16,7 +16,6 @@ package cn.Sparking.com.sort;
  * 1.将序列每相邻两个数字进行归并操作，形成floor(n/2)个序列，排序后每个序列包含两个元素
  * 2.将上述序列再次归并，形成floor(n/4)个序列，每个序列包含四个元素
  * 3.重复步骤2，直到所有元素排序完毕
-
  */
 public class merge_sort_ex {
 	private static int count = 0;
